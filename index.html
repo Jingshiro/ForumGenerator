@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>论坛体生成器</title>
+    <!-- Preconnect for Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Font Definitions
+         Modern: Inter, Noto Sans SC
+         Classic: Ma Shan Zheng, Noto Serif SC
+         Fantasy: Cinzel
+         Campus: ZCOOL KuaiLe, Quicksand
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&family=Quicksand:wght@400;500;600;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    
+    <script>
+      // Font Loading Detection
+      window.addEventListener('load', () => {
+        // List of critical font families to check
+        const fontsToCheck = [
+          'Inter', 
+          'Noto Sans SC', 
+          'Ma Shan Zheng', 
+          'Cinzel', 
+          'ZCOOL KuaiLe'
+        ];
+        
+        // Simple check mechanism
+        if (document.fonts) {
+          document.fonts.ready.then(() => {
+            const missingFonts = [];
+            fontsToCheck.forEach(font => {
+              if (!document.fonts.check(`12px "${font}"`)) {
+                 // Note: check() can return false if the font performs character substitution or isn't used yet, 
+                 // but it's a decent proxy for "did this fail completely".
+                 // However, for Google Fonts that swap, it might return true. 
+                 // We will rely on the fact that if it fails to load network, it might fallback.
+                 // This log is a "best effort" warning as requested.
+                 missingFonts.push(font);
+              }
+            });
+            
+            if (missingFonts.length > 0) {
+              console.warn('⚠️ [Font System] Potential font loading issue detected for:', missingFonts.join(', '));
+              console.log('If you are seeing this offline or restricted network, fonts may fall back to system defaults.');
+            } else {
+              console.log('✅ [Font System] Font system initialized.');
+            }
+          });
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

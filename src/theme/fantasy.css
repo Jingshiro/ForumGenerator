@@ -1,0 +1,88 @@
+/* Fantasy Theme (西幻版) */
+
+.theme-fantasy {
+  /* Color Palette - Dark Mode Base */
+  --fantasy-bg-page: #0f172a; /* Slate 900 */
+  --fantasy-bg-card: #1e293b; /* Slate 800 */
+  --fantasy-text-primary: #e2e8f0; /* Slate 200 */
+  --fantasy-text-secondary: #94a3b8; /* Slate 400 */
+  --fantasy-accent: #fbbf24; /* Amber 400 (Gold) */
+  --fantasy-border: #475569; /* Slate 600 */
+  --fantasy-glow: rgba(251, 191, 36, 0.2);
+  
+  /* Fonts */
+  --fantasy-font-header: 'Cinzel', serif;
+  --fantasy-font-body: 'Noto Serif SC', serif;
+}
+
+.theme-fantasy .forum-container {
+  background-color: var(--fantasy-bg-page);
+  color: var(--fantasy-text-primary);
+  font-family: var(--fantasy-font-body);
+  padding: var(--space-4);
+  /* Starry/Magic texture optional, keeping clean dark for now */
+}
+
+.theme-fantasy .forum-post {
+  background-color: var(--fantasy-bg-card);
+  border: 1px solid var(--fantasy-border);
+  border-radius: 4px; /* Sharper corners */
+  margin-bottom: var(--space-4);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Magical Glow Header */
+.theme-fantasy .post-header {
+  padding: var(--space-3) var(--space-6);
+  border-bottom: 1px solid var(--fantasy-border);
+  background: linear-gradient(to right, rgba(30, 41, 59, 1), rgba(15, 23, 42, 0.5));
+  display: flex;
+  align-items: center;
+}
+
+.theme-fantasy .post-header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--fantasy-accent), transparent);
+  opacity: 0.7;
+}
+
+.theme-fantasy .floor-id {
+  font-family: var(--fantasy-font-header);
+  color: var(--fantasy-accent);
+  font-size: 1.1em;
+  text-shadow: 0 0 5px var(--fantasy-glow);
+}
+
+.theme-fantasy .author-name {
+  font-family: var(--fantasy-font-header);
+  letter-spacing: 1px;
+  color: #f1f5f9;
+}
+
+/* Content */
+.theme-fantasy .post-content {
+  padding: var(--space-6);
+  font-family: var(--fantasy-font-body);
+  line-height: 1.7;
+}
+
+/* LZ (Quest Giver?) Highlight */
+.theme-fantasy .forum-post.is-lz {
+  border-color: var(--fantasy-accent);
+  box-shadow: 0 0 15px var(--fantasy-glow) inset;
+}
+
+/* Blockquote styling specific to fantasy */
+.theme-fantasy blockquote {
+  border-left-color: var(--fantasy-accent);
+  background: rgba(0, 0, 0, 0.3);
+  color: #cbd5e1;
+  font-style: italic;
+}

@@ -1,0 +1,93 @@
+/* Campus/School Theme (校园版) */
+
+.theme-campus {
+  /* Color Palette - Fresh & Playful */
+  --campus-bg-page: #f0fdf4; /* Light mint/green bg */
+  --campus-bg-card: #ffffff;
+  --campus-text-primary: #374151; /* Gray 700 */
+  --campus-text-secondary: #6b7280;
+  --campus-accent: #10b981; /* Emerald 500 */
+  --campus-highlight: #fdf2f8; /* Pink nuance */
+  --campus-line: #a7f3d0; /* Soft green line */
+  
+  /* Fonts */
+  --campus-font-reading: 'Quicksand', 'Noto Sans SC', sans-serif;
+  --campus-font-display: 'ZCOOL KuaiLe', cursive;
+}
+
+.theme-campus .forum-container {
+  background-color: var(--campus-bg-page);
+  color: var(--campus-text-primary);
+  font-family: var(--campus-font-reading);
+  padding: var(--space-4);
+  /* Grid pattern background */
+  background-image: 
+    linear-gradient(#e5e7eb 1px, transparent 1px),
+    linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Notebook Paper Style */
+.theme-campus .forum-post {
+  background-color: var(--campus-bg-card);
+  /* Tape effect or shadow */
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1); 
+  border: 1px solid #e5e7eb;
+  border-radius: 2px; /* Slight round */
+  margin-bottom: var(--space-6);
+  background-image: linear-gradient(#f1f5f9 1px, transparent 1px);
+  background-size: 100% 2em; /* Line height rhythm */
+  background-position: 0 1.5em; /* Offset for header */
+}
+
+/* Header as top margin of paper */
+.theme-campus .post-header {
+  padding: var(--space-3) var(--space-6);
+  border-bottom: 2px dashed var(--campus-accent);
+  background-color: #fff; /* Clear header */
+  display: flex;
+  align-items: center;
+}
+
+.theme-campus .floor-id {
+  font-family: var(--campus-font-display);
+  background-color: var(--campus-accent);
+  color: white;
+  border-radius: 50%; /* Circle badge */
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8em;
+  margin-right: var(--space-2);
+}
+
+.theme-campus .author-name {
+  font-weight: 700;
+  color: #059669;
+}
+
+/* Content */
+.theme-campus .post-content {
+  padding: var(--space-4) var(--space-6);
+  line-height: 2em; /* Match background lines */
+}
+
+/* Sticky Note LZ */
+.theme-campus .forum-post.is-lz {
+  background-color: #fffbeb; /* Yellow sticky note tint */
+  background-image: linear-gradient(#fef3c7 1px, transparent 1px);
+  transform: rotate(-1deg);
+  border-color: #fcd34d;
+}
+
+.theme-campus .is-lz .floor-id {
+  background-color: #f59e0b;
+}
+
+@media (max-width: 640px) {
+  .theme-campus .forum-container {
+    background-size: 100% 100%; /* Remove grid on mobile for perf/visuals */
+  }
+}

@@ -1,0 +1,51 @@
+/* Base Theme Configuration */
+:root {
+  /* Global Layout Metrics */
+  --content-width: 800px; /* Optimal reading width */
+  --sidebar-width: 280px;
+  --header-height: 60px;
+  
+  /* Typography Baseline */
+  --font-base-size: 16px;
+  --font-line-height: 1.6;
+  
+  /* Spacing System (8pt Grid) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+}
+
+/* Base Reset/Normalization specifically for the Forum Container */
+.forum-container {
+  width: 100%;
+  min-height: 100%;
+  font-size: var(--font-base-size);
+  line-height: var(--font-line-height);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.forum-container * {
+  box-sizing: border-box;
+}
+
+/* Typography Hierarchy */
+.forum-post h1, .forum-post h2, .forum-post h3 {
+  line-height: 1.3;
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-3);
+  font-weight: 700;
+}
+
+.forum-post h1 { font-size: 1.75em; }
+.forum-post h2 { font-size: 1.5em; }
+.forum-post h3 { font-size: 1.25em; }
+
+.forum-post p {
+  margin-bottom: var(--space-4);
+  max-width: 75ch; /* Readable line length */
+}

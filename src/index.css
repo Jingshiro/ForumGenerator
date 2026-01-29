@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Common Utilities */
+  .spoiler {
+    @apply bg-black text-black cursor-pointer transition-colors duration-200 rounded px-1 selection:bg-transparent select-none;
+  }
+  
+  .spoiler.is-revealed {
+    @apply bg-gray-200 text-gray-800 selection:bg-blue-200 selection:text-black;
+  }
+
+  /* --- Theme: Modern (Default) --- */
+  .theme-modern {
+    --bg-color: #f3f4f6;
+    --post-bg: #ffffff;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --accent-color: #3b82f6;
+    --border-color: #e5e7eb;
+    --header-bg: #ffffff;
+    --font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .theme-modern .forum-container {
+    background-color: var(--bg-color);
+    font-family: var(--font-family);
+  }
+
+  .theme-modern .forum-post {
+    background-color: var(--post-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .theme-modern .post-header {
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  /* --- Theme: Classic (Ancient/Xianxia) --- */
+  .theme-classic {
+    --bg-color: #f2e6d8;
+    --post-bg: #fffbf0;
+    --text-primary: #4a3c31;
+    --text-secondary: #8c7b6c;
+    --accent-color: #8b4513;
+    --border-color: #d7c4bb;
+    --header-bg: #f9f3e9;
+    --font-family: 'Songti SC', 'SimSun', serif;
+  }
+
+  .theme-classic .forum-container {
+    background-color: var(--bg-color);
+    font-family: var(--font-family);
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d7c4bb' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .theme-classic .forum-post {
+    background-color: var(--post-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    box-shadow: 2px 2px 5px rgba(139, 69, 19, 0.1);
+  }
+
+  .theme-classic .post-header {
+    border-bottom: 2px double var(--border-color);
+  }
+}
+
+/* Markdown Content Styling within Posts */
+.markdown-body {
+  @apply text-base leading-relaxed;
+}
+
+.markdown-body p {
+  @apply mb-3;
+}
+
+.markdown-body blockquote {
+  @apply border-l-4 pl-4 py-1 my-2 bg-opacity-10 rounded-r;
+  border-color: var(--accent-color, #3b82f6);
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.markdown-body img {
+  @apply max-w-full h-auto rounded my-2 cursor-pointer transition-transform duration-300;
+}
+
+.markdown-body a {
+  @apply underline underline-offset-2;
+  color: var(--accent-color, #3b82f6);
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3 {
+  @apply font-bold mt-4 mb-2;
+}

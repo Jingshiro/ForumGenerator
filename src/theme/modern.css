@@ -1,0 +1,105 @@
+/* Modern Minimalist Theme (Reference: Zhihu/Modern Web) */
+
+.theme-modern {
+  /* Color Palette - 60-30-10 Rule */
+  /* Main Background (60%) */
+  --modern-bg-page: #f9fafb; /* Very light cool gray */
+  --modern-bg-card: #ffffff;
+  
+  /* Text (30%) */
+  --modern-text-primary: #111827; /* Near black */
+  --modern-text-secondary: #6b7280; /* Cool gray */
+  
+  /* Accent (10%) */
+  --modern-accent: #2563eb; /* Tech Blue */
+  --modern-accent-hover: #1d4ed8;
+  
+  /* Borders & Shadows */
+  --modern-border: #e5e7eb;
+  --modern-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --modern-radius: 12px;
+  
+  /* Fonts */
+  --modern-font-stack: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+}
+
+.theme-modern .forum-container {
+  background-color: var(--modern-bg-page);
+  color: var(--modern-text-primary);
+  font-family: var(--modern-font-stack);
+  padding: var(--space-4);
+}
+
+/* Card Style for Posts */
+.theme-modern .forum-post {
+  background-color: var(--modern-bg-card);
+  border: 1px solid var(--modern-border);
+  border-radius: var(--modern-radius);
+  box-shadow: var(--modern-shadow);
+  margin-bottom: var(--space-4);
+  overflow: hidden; /* Ensure rounded corners clip content */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect for interactivity */
+.theme-modern .forum-post:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+}
+
+/* Header Styling */
+.theme-modern .post-header {
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--modern-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.theme-modern .floor-id {
+  font-weight: 600;
+  color: var(--modern-accent);
+  background-color: #eff6ff; /* light blue bg */
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.theme-modern .author-name {
+  font-weight: 700;
+  color: var(--modern-text-primary);
+  font-size: 1rem;
+  margin-left: var(--space-3);
+}
+
+/* Content Area */
+.theme-modern .post-content {
+  padding: var(--space-6);
+  color: #374151; /* Dark gray for better reading comfort than pure black */
+}
+
+/* LZ (Op) Special Styling */
+.theme-modern .forum-post.is-lz {
+  border-left: 4px solid var(--modern-accent);
+}
+
+.theme-modern .is-lz .floor-id {
+  background-color: var(--modern-accent);
+  color: white;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 640px) {
+  .theme-modern .forum-container {
+    padding: var(--space-2);
+  }
+  
+  .theme-modern .forum-post {
+    border-radius: 8px;
+  }
+  
+  .theme-modern .post-content {
+    padding: var(--space-4);
+  }
+}

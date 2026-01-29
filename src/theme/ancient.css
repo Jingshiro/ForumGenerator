@@ -1,0 +1,102 @@
+/* Ancient/Classic Theme (古风修仙) */
+
+.theme-classic {
+  /* Color Palette */
+  --classic-bg-paper: #f4ecdc; /* Rice paper */
+  --classic-bg-post: #fffbf0;
+  --classic-text-ink: #2c2c2c; /* Ink black */
+  --classic-text-faint: #8a7f72;
+  --classic-accent: #c0392b; /* Cinnabar Red (Zhu Sha) */
+  --classic-border: #d3c4b1;
+  
+  /* Fonts */
+  --classic-font-stack: 'Ma Shan Zheng', 'Noto Serif SC', 'Songti SC', serif;
+}
+
+.theme-classic .forum-container {
+  background-color: var(--classic-bg-paper);
+  color: var(--classic-text-ink);
+  font-family: var(--classic-font-stack);
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23dccab6' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+  padding: var(--space-4);
+}
+
+.theme-classic .forum-post {
+  background-color: var(--classic-bg-post);
+  border: 1px solid var(--classic-border);
+  /* Double border effect for classic look */
+  box-shadow: 
+    0 0 0 4px var(--classic-bg-post),
+    0 0 0 5px var(--classic-border),
+    0 4px 10px rgba(44, 44, 44, 0.1);
+  margin-bottom: var(--space-6); /* More spacing */
+  position: relative;
+}
+
+.theme-classic .post-header {
+  padding: var(--space-3) var(--space-6);
+  border-bottom: 2px solid var(--classic-border);
+  display: flex;
+  align-items: center;
+  /* Cloud pattern separator could go here */
+}
+
+/* The "Seal/Stamp" effect for the floor number */
+.theme-classic .floor-id {
+  font-family: 'Ma Shan Zheng', serif;
+  color: var(--classic-accent);
+  border: 1px solid var(--classic-accent);
+  padding: 2px 6px;
+  /* Rounded square */
+  border-radius: 4px; 
+  background: transparent;
+  font-size: 1.1em;
+  transform: rotate(-2deg); /* Organic stamp feel */
+}
+
+.theme-classic .author-name {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-left: var(--space-3);
+  letter-spacing: 1px;
+}
+
+.theme-classic .post-content {
+  padding: var(--space-8) var(--space-6);
+  font-size: 1.1em; /* Slightly larger for reading */
+  line-height: 1.8;
+}
+
+/* Vertical Rhythm Emphasis */
+.theme-classic .forum-post::before,
+.theme-classic .forum-post::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  border-left: 1px dashed var(--classic-border);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.theme-classic .forum-post::before { left: 15px; }
+.theme-classic .forum-post::after { right: 15px; }
+
+/* LZ Highlight */
+.theme-classic .forum-post.is-lz {
+  /* Subtle golden glow overlay or border change */
+  border-color: #bfa588;
+}
+.theme-classic .is-lz .floor-id {
+  background-color: var(--classic-accent);
+  color: var(--classic-bg-post);
+}
+
+@media (max-width: 640px) {
+  .theme-classic .forum-post::before,
+  .theme-classic .forum-post::after {
+    display: none; /* Hide decorative lines on mobile */
+  }
+}
