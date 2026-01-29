@@ -38,6 +38,8 @@ npm run build
 
 ---
 
+### [在线使用](https://myst423.shop/forumgenerator/)
+
 ## 🛠️ 技术实现 (Technical Details)
 
 ### 1. 技术栈 (Tech Stack)
