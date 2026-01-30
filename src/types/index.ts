@@ -42,7 +42,7 @@ export const DEFAULT_THEME: Theme = {
   id: "modern",
   name: "现代简约",
   className: "theme-modern",
-  description: "类似于知乎/贴吧的现代风格，干净整洁。",
+  description: "最基础的样式。",
 };
 
 export type AvatarMode = "random" | "order";

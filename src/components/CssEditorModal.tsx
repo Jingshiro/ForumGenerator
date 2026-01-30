@@ -8,31 +8,102 @@ interface CssEditorModalProps {
   setCss: (css: string) => void;
 }
 
-const CSS_TEMPLATE = `/* 自定义 CSS 模板 */
-/* 提示：由于主题样式优先级较高，建议使用 !important 或更具体的选择器 */
+const CSS_TEMPLATE = `/* ==========================================================================
+   自定义 CSS 模板 / Custom CSS Template
+   --------------------------------------------------------------------------
+   你可以直接修改下面的代码来覆盖默认的主题样式。
+   提示：为了确保你的样式生效，建议在属性后加上 !important。
+   ========================================================================== */
 
-/* 修改帖子背景色 */
+/* --- 1. 全局配置 (Global Settings) --- */
+:root {
+  /* 调整页面背景色 */
+  --bg-color-override: #f0f9ff;
+  
+  /* 调整字体 (建议使用系统默认或网络字体) */
+  --font-family-override: "Microsoft YaHei", "Segoe UI", sans-serif;
+}
+
+/* 应用全局背景和字体 */
+.forum-container {
+  background-color: var(--bg-color-override) !important;
+  font-family: var(--font-family-override) !important;
+}
+
+/* --- 2. 帖子外观 (Post Appearance) --- */
 .forum-post {
-  background-color: #f0f9ff !important;
-  border-radius: 12px !important;
+  /* 背景色: 白色带一点蓝 */
+  background-color: #ffffff !important;
+  
+  /* 边框: 2像素实线，浅蓝色 */
   border: 2px solid #bae6fd !important;
+  
+  /* 圆角: 设置得大一些看起来更可爱 */
+  border-radius: 16px !important;
+  
+  /* 阴影: 增加一点立体感 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+  
+  /* 帖子之间的间距 */
+  margin-bottom: 24px !important;
 }
 
-/* 修改楼层头部 (用户信息栏) */
+/* --- 3. 楼层头部 (Header) --- */
 .post-header {
-  background-color: rgba(0,0,0, 0.02) !important;
-  border-bottom: 1px dashed #ccc !important;
+  /* 头部背景色: 极浅的灰色 */
+  background-color: #f8fafc !important;
+  
+  /* 底部虚线分隔 */
+  border-bottom: 2px dashed #e2e8f0 !important;
+  
+  /* 增加内边距 */
+  padding: 12px 20px !important;
 }
 
-/* 修改楼主标识 */
+/* 楼层号 (#1L, #2L) */
+.floor-id {
+  color: #64748b !important;
+  font-weight: bold !important;
+  font-size: 1.1em !important;
+}
+
+/* 作者名 */
+.author-name {
+  color: #0f172a !important;
+  font-size: 1.1em !important;
+}
+
+/* 楼主标识 (LZ) */
 .is-lz {
-  background-color: #ff6b6b !important;
+  background-color: #ff6b6b !important; /* 红色背景 */
+  color: white !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
 }
 
-/* 修改正文字体 */
+/* --- 4. 正文内容 (Content) --- */
 .markdown-body {
-  font-family: 'Segoe UI', sans-serif !important;
-  font-size: 15px !important;
+  font-size: 16px !important;
+  line-height: 1.8 !important;
+  color: #334155 !important;
+  padding: 20px !important;
+}
+
+/* 引用块 (Blockquote) */
+/* 通常用于显示回复或者特殊的灰字内容 */
+.markdown-body blockquote {
+  border-left: 4px solid #3b82f6 !important; /* 左侧蓝条 */
+  background-color: #eff6ff !important;    /* 浅蓝背景 */
+  color: #1e40af !important;
+  padding: 10px 16px !important;
+}
+
+/* --- 5. 图片样式 (Images) --- */
+.markdown-body img {
+  border-radius: 8px !important;
+  max-height: 400px !important; /* 限制图片最大高度 */
+  object-fit: contain !important; /* 保持比例 */
+  border: 1px solid #e2e8f0 !important;
 }
 `;
 

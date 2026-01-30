@@ -108,7 +108,7 @@ export const TipsModal: React.FC<TipsModalProps> = ({ isOpen, onClose }) => {
                   [点击穿越](#post2)
                 </code>
                 <span className="text-xs text-gray-500">
-                  跳转到第2个帖子，`postN`中N为第几个帖子。
+                  跳转到第2个帖子，`postN`中N为第几个帖子。如果在括号内输入网站地址，那么可以跳转到外部网站。
                 </span>
               </div>
               
