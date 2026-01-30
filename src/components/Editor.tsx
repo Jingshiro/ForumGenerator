@@ -58,13 +58,19 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
   };
 
   const handleAddFloors = () => {
-    const lastPostIndex = value.lastIndexOf('!!! Post');
+    if (!textareaRef.current) return;
+    
+    const cursorPosition = textareaRef.current.selectionStart;
+    const textBeforeCursor = value.substring(0, cursorPosition);
+    
+    // Analyze context BEFORE cursor
+    const lastPostIndex = textBeforeCursor.lastIndexOf('!!! Post');
     const floorRegex = /^#\s+(\d+)L/gm;
     let match;
     let lastFloorNum = 0;
     let lastFloorIndex = -1;
 
-    while ((match = floorRegex.exec(value)) !== null) {
+    while ((match = floorRegex.exec(textBeforeCursor)) !== null) {
       if (match.index > lastFloorIndex) {
         lastFloorIndex = match.index;
         lastFloorNum = parseInt(match[1], 10);
@@ -82,11 +88,6 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
       startNum = 1;
     }
 
-    let newContent = value;
-    if (newContent && !newContent.endsWith('\n\n')) {
-      newContent += newContent.endsWith('\n') ? '\n' : '\n\n';
-    }
-
     const floorsToAdd = [];
     for (let i = 0; i < 10; i++) {
         const floorNum = startNum + i;
@@ -97,16 +98,15 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
         floorsToAdd.push(`${line}\n\n`);
     }
 
-    const appendText = floorsToAdd.join('\n');
-    onChange(newContent + appendText);
-    setIsActionMenuOpen(false);
+    // Ensure content starts with newline if not at start of line (optional, but good for formatting)
+    // Actually insertAtCursor just inserts. 
+    // Let's add a leading newline if the char before cursor isn't a newline.
+    let appendText = floorsToAdd.join('\n');
+    if (cursorPosition > 0 && value[cursorPosition - 1] !== '\n') {
+        appendText = '\n' + appendText;
+    }
     
-    setTimeout(() => {
-        if(textareaRef.current) {
-            textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
-            textareaRef.current.focus();
-        }
-    }, 100);
+    insertAtCursor(appendText);
   };
 
   return (
