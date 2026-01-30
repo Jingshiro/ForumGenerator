@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { HelpCircle, Upload, Plus } from 'lucide-react';
+import { HelpCircle, Upload, Plus, Image, FilePlus, Link, User, Layers } from 'lucide-react';
 import { TipsModal } from './TipsModal';
 
 interface EditorProps {
@@ -9,8 +9,33 @@ interface EditorProps {
 
 export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
   const [showTips, setShowTips] = useState(false);
+  const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const insertAtCursor = (text: string) => {
+    if (textareaRef.current) {
+        const textarea = textareaRef.current;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const scrollTop = textarea.scrollTop; // Record scroll position
+        
+        const newValue = value.substring(0, start) + text + value.substring(end);
+        onChange(newValue);
+        
+        // Use requestAnimationFrame or double timeout to ensure DOM update before restoring state
+        setTimeout(() => {
+            if (textareaRef.current) {
+                textareaRef.current.focus();
+                textareaRef.current.setSelectionRange(start + text.length, start + text.length);
+                textareaRef.current.scrollTop = scrollTop; // Restore scroll position
+            }
+        }, 0);
+    } else {
+        onChange(value + text);
+    }
+    setIsActionMenuOpen(false);
+  };
 
   const handleImportClick = () => {
     fileInputRef.current?.click();
@@ -32,12 +57,8 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
     e.target.value = '';
   };
 
-  const handleQuickAdd = () => {
-    // 1. Determine the context (New Post vs Continue Thread)
-    // Find the last occurrence of "!!! Post" and "# <N>L"
+  const handleAddFloors = () => {
     const lastPostIndex = value.lastIndexOf('!!! Post');
-    // Regex for finding floors: matches # 123L at start of line
-    // We need to find the *last* one.
     const floorRegex = /^#\s+(\d+)L/gm;
     let match;
     let lastFloorNum = 0;
@@ -53,20 +74,15 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
     let startNum = lastFloorNum + 1;
     let isNewThread = false;
 
-    // Check if we are starting a fresh thread (Post declaration is after the last floor)
     if (lastPostIndex > lastFloorIndex) {
       isNewThread = true;
       startNum = 1;
-    } 
-    // If no floors at all and no post (empty doc), also start at 1
-    else if (lastFloorNum === 0) {
-      isNewThread = true; // effectively treat as new
+    } else if (lastFloorNum === 0) {
+      isNewThread = true;
       startNum = 1;
     }
 
-    // 2. Generate content
     let newContent = value;
-    // ensure newline separation if not empty
     if (newContent && !newContent.endsWith('\n\n')) {
       newContent += newContent.endsWith('\n') ? '\n' : '\n\n';
     }
@@ -74,23 +90,17 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
     const floorsToAdd = [];
     for (let i = 0; i < 10; i++) {
         const floorNum = startNum + i;
-        // Refined: Only mark LZ if explicitly needed for new thread start-up. 
-        // Otherwise just # NL with no author (will default to anonymous if parsed) or explicit empty.
-        // User asked to remove "匿名".
-        // Parser defaults empty author to "匿名用户", so standard usage `# 5L` works fine.
-        
         let line = `# ${floorNum}L`;
         if (isNewThread && i === 0) {
             line += ` LZ`;
         }
-        
-        floorsToAdd.push(`${line}\n回复内容...\n\n`);
+        floorsToAdd.push(`${line}\n\n`);
     }
 
     const appendText = floorsToAdd.join('\n');
     onChange(newContent + appendText);
+    setIsActionMenuOpen(false);
     
-    // Focus and scroll to bottom
     setTimeout(() => {
         if(textareaRef.current) {
             textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
@@ -145,14 +155,59 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
             spellCheck={false}
           />
           
-          {/* Quick Add FAB */}
-          <button
-            onClick={handleQuickAdd}
-            className="absolute bottom-6 right-6 w-12 h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-105 active:scale-95 z-10"
-            title="自动追加10楼"
-          >
-             <Plus size={24} />
-          </button>
+          {/* Quick Add Menu */}
+          <div className="absolute bottom-6 right-6 flex flex-col items-end gap-3 z-20">
+              {isActionMenuOpen && (
+                  <div className="flex flex-col gap-2 mb-2 animate-in slide-in-from-bottom-4 fade-in duration-200">
+                      <button
+                        onClick={() => insertAtCursor('<"图片url">')}
+                        className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md border hover:bg-gray-50 text-sm text-gray-700 transition-all whitespace-nowrap"
+                      >
+                         <User size={16} className="text-purple-600" />
+                         <span>指定头像</span>
+                      </button>
+                      <button
+                        onClick={() => insertAtCursor('[显示内容](跳转目标)')}
+                        className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md border hover:bg-gray-50 text-sm text-gray-700 transition-all whitespace-nowrap"
+                      >
+                         <Link size={16} className="text-green-600" />
+                         <span>插入跳转</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                            const prefix = (!value || value.endsWith('\n')) ? '' : '\n';
+                            insertAtCursor(`${prefix}!!! Post: `);
+                        }}
+                        className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md border hover:bg-gray-50 text-sm text-gray-700 transition-all whitespace-nowrap"
+                      >
+                         <FilePlus size={16} className="text-orange-600" />
+                         <span>新建帖子</span>
+                      </button>
+                      <button
+                        onClick={() => insertAtCursor('![图片描述](图片链接)')}
+                        className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md border hover:bg-gray-50 text-sm text-gray-700 transition-all whitespace-nowrap"
+                      >
+                         <Image size={16} className="text-blue-600" />
+                         <span>插入贴图</span>
+                      </button>
+                      <button
+                        onClick={handleAddFloors}
+                        className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md border hover:bg-gray-50 text-sm text-gray-700 transition-all whitespace-nowrap"
+                      >
+                         <Layers size={16} className="text-blue-600" />
+                         <span>追加10楼</span>
+                      </button>
+                  </div>
+              )}
+              
+              <button
+                onClick={() => setIsActionMenuOpen(!isActionMenuOpen)}
+                className={`w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95 ${isActionMenuOpen ? 'bg-gray-200 text-gray-600 rotate-45' : 'bg-blue-600 text-white'}`}
+                title="快速插入"
+              >
+                 <Plus size={24} />
+              </button>
+          </div>
       </div>
     </div>
   );

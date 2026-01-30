@@ -14,7 +14,7 @@ export const TipsModal: React.FC<TipsModalProps> = ({ isOpen, onClose }) => {
       <div className="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[80vh] flex flex-col overflow-hidden animate-scale-in">
         <div className="p-4 border-b flex justify-between items-center bg-gray-50">
           <h3 className="font-bold text-lg text-gray-800">
-            使用指南 & 语法提示
+            格式提示
           </h3>
           <button
             onClick={onClose}
@@ -43,6 +43,9 @@ export const TipsModal: React.FC<TipsModalProps> = ({ isOpen, onClose }) => {
               </li>
               <li>
                 例如：<code># 1L 楼主</code> 或 <code># 2L 路人甲</code>
+              </li>
+              <li>
+                其中，作者名可以省略，省略则不显示。楼层号可以是任何字符串。
               </li>
             </ul>
           </section>
@@ -78,6 +81,17 @@ export const TipsModal: React.FC<TipsModalProps> = ({ isOpen, onClose }) => {
                 </code>
               </div>
               <div>
+                <span className="font-bold text-gray-800">
+                  贴图
+                </span>
+                <code className="block bg-gray-100 p-1 rounded mt-1 font-mono">
+                  ![图片描述，当图片裂了会显示的文字](图片链接)
+                </code>
+                <span className="text-xs text-gray-500">
+                  图片链接需要是完整的URL，例如：<code>https://example.com/image.jpg</code>。也可以使用HTML方式渲染，详见下方教程。
+                </span>
+              </div>            
+              <div>
                 <span className="font-bold text-gray-800">引用回复</span>
                 <code className="block bg-gray-100 p-1 rounded mt-1 font-mono">
                   &gt; # 12L
@@ -94,13 +108,25 @@ export const TipsModal: React.FC<TipsModalProps> = ({ isOpen, onClose }) => {
                   [点击穿越](#post2)
                 </code>
                 <span className="text-xs text-gray-500">
-                  跳转到 ID 为 post2 的楼层 (自动生成的 ID 通常为 thread-X-floor-YL)。
+                  跳转到第2个帖子，`postN`中N为第几个帖子。
                 </span>
               </div>
               
               <div>
                  <span className="font-bold text-gray-800">
-                    自定义小尾巴 (客户端)
+                    指定时间与头像
+                 </span>
+                 <code className="block bg-gray-100 p-1 rounded mt-1 font-mono break-all">
+                    # 1L 某人[yesterday]&lt;"http://img..."&gt;
+                 </code>
+                 <span className="text-xs text-gray-500">
+                    在作者名后使用 <code>[]</code> 自定义时间，使用 <code>&lt;""&gt;</code> (注意需要带英文引号) 自定义头像链接。
+                 </span>
+              </div>
+
+              <div>
+                 <span className="font-bold text-gray-800">
+                    指定小尾巴 (客户端)
                  </span>
                  <code className="block bg-gray-100 p-1 rounded mt-1 font-mono">
                     # 5L 路人<br/>
@@ -115,7 +141,18 @@ export const TipsModal: React.FC<TipsModalProps> = ({ isOpen, onClose }) => {
           </section>
         </div>
 
-        <div className="p-4 border-t bg-gray-50 text-right">
+        <div className="p-4 border-t bg-gray-50 flex justify-between items-center">
+          <div className="flex flex-col items-center">
+              <a 
+                href="https://www.runoob.com/markdown/md-tutorial.html" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-sm text-blue-600 hover:underline mb-0.5"
+              >
+                Markdown 教程
+              </a>
+              <span className="text-[10px] text-gray-400 scale-90 origin-top">不一定全支持</span>
+          </div>
           <button
             onClick={onClose}
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"

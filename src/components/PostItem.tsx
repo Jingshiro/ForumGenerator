@@ -28,12 +28,20 @@ export const PostItem: React.FC<PostItemProps> = ({ post, clientTail, onLinkClic
       {/* Header */}
       <div className="post-header p-3 flex items-center justify-between text-sm bg-opacity-50">
         <div className="flex items-center gap-2">
-           <div className={clsx(
-             "w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xs",
-             post.isLZ ? "bg-blue-500" : "bg-gray-400"
-           )}>
-             {post.isLZ ? "LZ" : <User size={16} />}
-           </div>
+           {post.avatar ? (
+              <img 
+                src={post.avatar} 
+                alt={post.author}
+                className="w-8 h-8 rounded-full object-cover border border-gray-200"
+              />
+           ) : (
+              <div className={clsx(
+                "w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xs",
+                post.isLZ ? "bg-blue-500" : "bg-gray-400"
+              )}>
+                {post.isLZ ? "LZ" : <User size={16} />}
+              </div>
+           )}
            
            <div className="flex flex-col">
              <span className="font-bold">{post.author}</span>

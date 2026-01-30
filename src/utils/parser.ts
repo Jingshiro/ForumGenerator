@@ -123,8 +123,23 @@ const parseSingleThread = (content: string, title: string, threadIndex: number):
             finalizePost();
             
             const floorIdRaw = match[1].trim(); 
-            const rest = match[2]?.trim() || '';
+            let rest = match[2]?.trim() || '';
             
+            // Syntax: # FloorName Author[Time]<"AvatarUrl">
+            // The order of [Time] and <"AvatarUrl"> might vary if user is messy, 
+            // but let's assume standard: Author part contains them.
+            
+            // We need to extract <"AvatarUrl">
+            // Regex for <" ... ">
+            const avatarMatch = rest.match(/<"(.*?)">/);
+            let specificAvatar: string | undefined = undefined;
+            
+            if (avatarMatch) {
+                specificAvatar = avatarMatch[1];
+                // Remove from rest to avoid it being part of author/time
+                rest = rest.replace(avatarMatch[0], '').trim();
+            }
+
             let authorRaw = rest;
             let manualTimestamp: string | undefined = undefined;
 
@@ -154,6 +169,7 @@ const parseSingleThread = (content: string, title: string, threadIndex: number):
                 id: generateId(threadIndex, floorIdRaw),
                 floorId: floorIdRaw,
                 author: authorRaw,
+                avatar: specificAvatar,
                 isLZ: ['LZ', '楼主', 'PO'].includes(floorIdRaw.toUpperCase()) || floorIdRaw.includes('楼主'),
                 timestamp: undefined, // Will be calculated by timeUtils
                 manualTimestamp, 

@@ -24,7 +24,7 @@ export interface Theme {
   css?: string; // Content of the theme's CSS file
 }
 
-export type TimeMode = 'hidden' | 'random';
+export type TimeMode = "hidden" | "random";
 
 export interface TimeConfig {
   mode: TimeMode;
@@ -33,14 +33,35 @@ export interface TimeConfig {
 }
 
 export const DEFAULT_TIME_CONFIG: TimeConfig = {
-  mode: 'random',
-  startTime: '2025-01-01 09:00',
-  endTime: '2025-01-01 23:00'
+  mode: "random",
+  startTime: "2025-01-01 09:00",
+  endTime: "2025-01-01 23:00",
 };
 
 export const DEFAULT_THEME: Theme = {
-  id: 'modern',
-  name: '现代简约',
-  className: 'theme-modern',
-  description: '类似于知乎/贴吧的现代风格，干净整洁。'
+  id: "modern",
+  name: "现代简约",
+  className: "theme-modern",
+  description: "类似于知乎/贴吧的现代风格，干净整洁。",
 };
+
+export type AvatarMode = "random" | "order";
+
+export interface AvatarConfig {
+  show: boolean;
+  mode: AvatarMode;
+  list: string[];
+}
+
+export interface Post {
+  id: string; // Globally unique ID: thread-X-floor-Y
+  floorId: string; // The floor number/string within thread: "1L", "LZ"
+  author: string;
+  avatar?: string; // Specific avatar URL or resolved avatar
+  content: string;
+  isLZ: boolean;
+  timestamp?: string;
+  threadId: string; // Reference to parent thread
+  clientTail?: string;
+  manualTimestamp?: string; // Extracted from "[...]" in the floor header
+}

@@ -18,6 +18,11 @@ export interface ExportOptions {
         mode: 'random' | 'order';
         list: string[];
     };
+    avatarConfig: {
+        show: boolean;
+        mode: 'random' | 'order';
+        list: string[];
+    };
     timeConfig: any; // Using any or explicit type if preferred
     mainCss?: string; // New field for full Tailwind CSS
 }
@@ -92,6 +97,22 @@ export const generateHtml = (theme: Theme, threads: Thread[], options: ExportOpt
       return tailConfig.list[index];
   };
 
+  const getAvatarForAuthor = (authorName: string, _floorIndex: number, specificAvatar?: string) => {
+    const { avatarConfig } = options;
+    if (specificAvatar) return specificAvatar;
+    if (!avatarConfig.show || avatarConfig.list.length === 0) return undefined;
+
+    let index = 0;
+    if (avatarConfig.mode === 'order') {
+        const hash = authorName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        index = hash % avatarConfig.list.length;
+    } else {
+         const hash = authorName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+         index = (hash * 13) % avatarConfig.list.length;
+    }
+    return avatarConfig.list[index];
+  };
+
   const renderMarkdown = (content: string) => {
       // Handle custom spoiler syntax ||text||
       let processed = content.replace(/\|\|(.+?)\|\|/g, '<span class="spoiler" onclick="this.classList.toggle(\'revealed\')">$1</span>');
@@ -135,11 +156,17 @@ export const generateHtml = (theme: Theme, threads: Thread[], options: ExportOpt
           }
           const tailHtml = tail ? `<span class="text-gray-400">${tail}</span>` : '';
 
+          // Resolve Avatar
+          const avatarUrl = getAvatarForAuthor(post.author, index, post.avatar);
+
           const isLzClass = post.isLZ ? 'is-lz' : '';
           const avatarBg = post.isLZ ? "bg-blue-500" : "bg-gray-400";
-          const avatarContent = post.isLZ 
-             ? "LZ" 
-             : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+          const avatarContent = avatarUrl 
+            ? `<img src="${avatarUrl}" alt="${post.author}" class="w-full h-full object-cover rounded-full">`
+            : (post.isLZ 
+                ? "LZ" 
+                : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
+              );
           
           // Use calculated time
           const displayTimestamp = postTimeMap[post.id] || '';

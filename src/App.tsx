@@ -8,6 +8,7 @@ import { SettingsModal } from './components/SettingsModal';
 import { PublishModal } from './components/PublishModal';
 import { usePreferences, THEMES } from './hooks/usePreferences';
 import { useClientTails } from './hooks/useClientTails';
+import { useAvatars } from './hooks/useAvatars';
 import { exportToHtml, generateHtml, ExportOptions } from './utils/exporter';
 import { PenLine, Smartphone, Download, Menu, Palette, Settings, Upload } from 'lucide-react';
 import clsx from 'clsx';
@@ -24,7 +25,9 @@ function App() {
     timeConfig, setTimeConfig
   } = usePreferences();
   
+  
   const { config: tailConfig, setConfig: setTailConfig, getTailForPost } = useClientTails();
+  const avatarConfig = useAvatars();
   
   const [activeTab, setActiveTab] = useState<'editor' | 'preview'>('editor');
   const [activeThreadId, setActiveThreadId] = useState<string>('');
@@ -79,6 +82,7 @@ function App() {
          ...options,
          customCss,
          tailConfig: { ...tailConfig },
+         avatarConfig: { ...avatarConfig.config },
          timeConfig: { ...timeConfig },
          mainCss
      };
@@ -126,6 +130,7 @@ function App() {
          setConfig={setTailConfig}
          timeConfig={timeConfig}
          setTimeConfig={setTimeConfig}
+         avatarConfig={avatarConfig}
       />
 
       <PublishModal 
@@ -247,6 +252,7 @@ function App() {
                    customCss={customCss}
                    tailConfig={tailConfig}
                    getTailForPost={getTailForPost}
+                   getAvatarForAuthor={avatarConfig.getAvatarForAuthor}
                    
                    postTimeMap={postTimeMap} // Pass calculated times
                 />

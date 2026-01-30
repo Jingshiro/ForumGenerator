@@ -10,12 +10,14 @@ interface SettingsModalProps {
   setConfig: (c: ClientTailConfig) => void;
   timeConfig: TimeConfig;
   setTimeConfig: (tc: TimeConfig) => void;
+  avatarConfig: any; // Using any for now to avoid circular deps if types not exported, but better to use AvatarConfig logic
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({ 
     isOpen, onClose, 
     config, setConfig,
-    timeConfig, setTimeConfig
+    timeConfig, setTimeConfig,
+    avatarConfig
 }) => {
   if (!isOpen) return null;
 
@@ -96,6 +98,67 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                         <br/>例如：<code className="bg-gray-200 px-1 rounded"># 1L 某人[2024-01-01]</code>
                      </div>
                 </div>
+            </section>
+
+
+            {/* Avatar Configuration */}
+            <section className="space-y-4">
+                <div className="flex items-center gap-2 pb-2 border-b">
+                     <Smartphone size={18} className="text-blue-600"/>
+                     <h4 className="font-bold text-gray-700">头像设置</h4>
+                </div>
+                
+                <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">启用头像库</span>
+                    <button 
+                         onClick={() => avatarConfig.setConfig({ ...avatarConfig.config, show: !avatarConfig.config.show })}
+                         className={`w-12 h-6 rounded-full p-1 transition-colors ${avatarConfig.config.show ? 'bg-blue-600' : 'bg-gray-300'}`}
+                    >
+                         <div className={`w-4 h-4 bg-white rounded-full shadow transform transition-transform ${avatarConfig.config.show ? 'translate-x-6' : 'translate-x-0'}`} />
+                    </button>
+                </div>
+
+                {avatarConfig.config.show && (
+                    <div className="space-y-4 animate-fade-in pl-1">
+                         <div className="flex gap-4">
+                             <label className="flex items-center gap-2 cursor-pointer">
+                                 <input 
+                                    type="radio" 
+                                    checked={avatarConfig.config.mode === 'random'}
+                                    onChange={() => avatarConfig.setConfig({...avatarConfig.config, mode: 'random'})}
+                                    className="text-blue-600"
+                                 />
+                                 <span className="text-sm">随机分配 (按用户名)</span>
+                             </label>
+                             <label className="flex items-center gap-2 cursor-pointer">
+                                 <input 
+                                    type="radio" 
+                                    checked={avatarConfig.config.mode === 'order'}
+                                    onChange={() => avatarConfig.setConfig({...avatarConfig.config, mode: 'order'})}
+                                    className="text-blue-600"
+                                 />
+                                 <span className="text-sm">按顺序分配</span>
+                             </label>
+                         </div>
+                         
+                         <div className="space-y-2">
+                             <label className="text-xs font-medium text-gray-500 block">
+                                 头像图片链接列表 (一行一个 URL)
+                             </label>
+                             <textarea 
+                                className="w-full border rounded p-2 text-sm h-32 resize-none focus:ring-2 focus:ring-blue-500 outline-none font-mono"
+                                value={avatarConfig.config.list.join('\n')}
+                                onChange={(e) => avatarConfig.setConfig({ ...avatarConfig.config, list: e.target.value.split('\n').filter((s: string) => s.trim()) })}
+                                placeholder="https://example.com/avatar1.jpg"
+                             />
+                         </div>
+                         
+                         <div className="text-xs text-gray-400 bg-gray-50 p-2 rounded">
+                             提示：你可以为特定楼层强制指定头像，只需在楼层头添加 <code className="bg-gray-200 px-1 rounded">&lt;"AvatarURL"&gt;</code>
+                             <br/>例如：<code className="bg-gray-200 px-1 rounded"># 1L 某人&lt;"http://..."&gt;</code>
+                         </div>
+                    </div>
+                )}
             </section>
 
             {/* Client Tail Configuration */}

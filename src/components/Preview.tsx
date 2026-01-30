@@ -13,6 +13,7 @@ interface PreviewProps {
   customCss?: string;
   tailConfig?: { show: boolean; mode: 'random' | 'order'; list: string[] };
   getTailForPost?: (postId: string, floorIndex: number) => string | undefined;
+  getAvatarForAuthor?: (authorName: string, floorIndex: number, specificAvatar?: string) => string | undefined;
   postTimeMap?: Record<string, string>;
 }
 
@@ -25,6 +26,7 @@ export const Preview: React.FC<PreviewProps> = ({
   customCss,
   tailConfig,
   getTailForPost,
+  getAvatarForAuthor,
   postTimeMap
 }) => {
   // Memoize parsing
@@ -138,10 +140,12 @@ export const Preview: React.FC<PreviewProps> = ({
                      
                      const displayTime = postTimeMap ? postTimeMap[post.id] : undefined;
                      
+                     const avatarUrl = getAvatarForAuthor ? getAvatarForAuthor(post.author, index, post.avatar) : post.avatar;
+
                      return (
                         <PostItem 
                             key={post.id} 
-                            post={post} 
+                            post={{ ...post, avatar: avatarUrl }} 
                             clientTail={tail}
                             onLinkClick={handleLinkClick}
                             displayTimestamp={displayTime} 
