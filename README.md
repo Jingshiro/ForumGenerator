@@ -38,7 +38,7 @@ npm run build
 
 ---
 
-### [在线使用](https://myst423.shop/forumgenerator/)
+### [在线使用](https://jingshiro.github.io/ForumGenerator/)
 
 ## 🛠️ 技术实现 (Technical Details)
 
