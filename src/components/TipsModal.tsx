@@ -1,5 +1,6 @@
-import React from "react";
-import { X } from "lucide-react";
+import React, { useState } from "react";
+import { X, HelpCircle } from "lucide-react";
+import { ImageHostTipsModal } from "./ImageHostTipsModal";
 
 interface TipsModalProps {
   isOpen: boolean;
@@ -7,10 +8,13 @@ interface TipsModalProps {
 }
 
 export const TipsModal: React.FC<TipsModalProps> = ({ isOpen, onClose }) => {
+  const [showImageTips, setShowImageTips] = useState(false);
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-fade-in">
+      <ImageHostTipsModal isOpen={showImageTips} onClose={() => setShowImageTips(false)} />
       <div className="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[80vh] flex flex-col overflow-hidden animate-scale-in">
         <div className="p-4 border-b flex justify-between items-center bg-gray-50">
           <h3 className="font-bold text-lg text-gray-800">
@@ -81,9 +85,18 @@ export const TipsModal: React.FC<TipsModalProps> = ({ isOpen, onClose }) => {
                 </code>
               </div>
               <div>
-                <span className="font-bold text-gray-800">
-                  贴图
-                </span>
+                <div className="flex items-center gap-2">
+                    <span className="font-bold text-gray-800">
+                    贴图
+                    </span>
+                    <button 
+                        onClick={() => setShowImageTips(true)}
+                        className="text-gray-400 hover:text-blue-600 transition-colors"
+                        title="图床指南"
+                    >
+                        <HelpCircle size={14} />
+                    </button>
+                </div>
                 <code className="block bg-gray-100 p-1 rounded mt-1 font-mono">
                   ![图片描述，当图片裂了会显示的文字](图片链接)
                 </code>

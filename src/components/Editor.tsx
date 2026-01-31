@@ -7,6 +7,12 @@ interface EditorProps {
   onChange: (val: string) => void;
 }
 
+const CleanupIcon = () => (
+    <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor">
+        <path d="M860.525714 622.884571l-188.708571 326.729143a34.304 34.304 0 0 1-46.811429 12.580572l-89.161143-51.492572 120.100572-207.945143a34.377143 34.377143 0 0 0-7.533714-43.300571l-5.046858-3.510857a34.377143 34.377143 0 0 0-43.300571 7.460571l-3.510857 5.12-120.100572 207.872-118.784-68.608L477.622857 599.917714a34.377143 34.377143 0 0 0-7.460571-43.300571l-5.12-3.657143a34.377143 34.377143 0 0 0-43.300572 7.533714l-3.510857 5.12-120.100571 207.872-207.872-119.954285a34.304 34.304 0 0 1-12.580572-46.884572l188.708572-326.802286 594.066285 343.04z m-61.586285-510.829714c16.457143 9.508571 22.016 30.427429 12.580571 46.811429L725.796571 307.419429l207.872 120.027428c16.457143 9.508571 22.089143 30.500571 12.580572 46.884572l-34.304 59.392a34.304 34.304 0 0 1-46.811429 12.580571l-534.674285-308.662857a34.304 34.304 0 0 1-12.580572-46.884572l34.304-59.465142a34.304 34.304 0 0 1 46.811429-12.507429l207.945143 120.027429 85.723428-148.48a34.304 34.304 0 0 1 46.884572-12.580572l59.392 34.304z"></path>
+    </svg>
+);
+
 export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
   const [showTips, setShowTips] = useState(false);
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
@@ -55,6 +61,14 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
     reader.readAsText(file);
     // Reset input so same file can be selected again
     e.target.value = '';
+  };
+
+  const handleClear = () => {
+    if (value.trim() === '') return;
+    
+    if (window.confirm('确定要清空所有内容吗？此操作无法撤销。')) {
+      onChange('');
+    }
   };
 
   const handleAddFloors = () => {
@@ -134,6 +148,15 @@ export const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
            </button>
         </div>
         <div className="flex items-center gap-2">
+            <button 
+               onClick={handleClear}
+               className="flex items-center gap-1 text-xs text-gray-600 hover:text-red-600 px-2 py-1 rounded hover:bg-gray-200 transition-colors"
+               title="清空内容"
+            >
+               <CleanupIcon />
+               <span>清空</span>
+            </button>
+            <div className="w-px h-4 bg-gray-300 mx-1"></div>
             <button 
                onClick={handleImportClick}
                className="flex items-center gap-1 text-xs text-gray-600 hover:text-blue-600 px-2 py-1 rounded hover:bg-gray-200 transition-colors"
