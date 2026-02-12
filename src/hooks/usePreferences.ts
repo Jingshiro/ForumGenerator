@@ -7,6 +7,7 @@ import modernCss from '../theme/modern.css?inline';
 import ancientCss from '../theme/ancient.css?inline';
 import fantasyCss from '../theme/fantasy.css?inline';
 import campusCss from '../theme/campus.css?inline';
+import neumorphismCss from '../theme/neumorphism.css?inline';
 
 export const usePreferences = () => {
   // Load content from localStorage or default
@@ -15,13 +16,10 @@ export const usePreferences = () => {
   });
 
   const [themeId, setThemeId] = useState(DEFAULT_THEME.id);
-
-  // Custom CSS persistence
   const [customCss, setCustomCss] = useState(() => {
      return localStorage.getItem('forum_custom_css') || '';
   });
 
-  // Time Config persistence
   const [timeConfig, setTimeConfig] = useState<TimeConfig>(() => {
       const stored = localStorage.getItem('forum_time_config');
       if (stored) {
@@ -32,7 +30,6 @@ export const usePreferences = () => {
       return DEFAULT_TIME_CONFIG;
   });
 
-  // Save automatically
   useEffect(() => {
     localStorage.setItem('forum_content', content);
   }, [content]);
@@ -82,5 +79,12 @@ export const THEMES: Theme[] = [
     className: 'theme-campus',
     description: '清新笔记风格，适合校园、日常题材。',
     css: campusCss
+  },
+  {
+    id: 'neumorphism',
+    name: '新拟态',
+    className: 'theme-neumorphism',
+    description: '柔和光影风格，现代、极简。',
+    css: neumorphismCss
   }
 ];

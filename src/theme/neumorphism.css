@@ -1,0 +1,144 @@
+/* Neumorphism Theme (新拟态) */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+.theme-neumorphism {
+  /* Color Palette - Soft & Calm */
+  --neu-bg: #e0e5ec;
+  --neu-text: #4a5568;
+  --neu-text-secondary: #718096;
+  --neu-accent: #6d5dfc; /* Soft purple/blue accent */
+  
+  /* Shadows are key for Neumorphism */
+  --neu-shadow-light: #ffffff;
+  --neu-shadow-dark: #a3b1c6;
+  
+  /* Fonts */
+  --neu-font-stack: 'Nunito', system-ui, -apple-system, sans-serif;
+}
+
+.theme-neumorphism .forum-container {
+  background-color: var(--neu-bg);
+  color: var(--neu-text);
+  font-family: var(--neu-font-stack);
+  padding: var(--space-6);
+  min-height: 100vh;
+}
+
+.theme-neumorphism .forum-post {
+  background-color: var(--neu-bg);
+  border-radius: 20px;
+  /* Neumorphism Shadow: Top-left light, Bottom-right dark */
+  box-shadow: 
+    9px 9px 16px var(--neu-shadow-dark), 
+    -9px -9px 16px var(--neu-shadow-light);
+  margin-bottom: var(--space-8);
+  border: 1px solid rgba(255,255,255,0.2); /* Subtle highlight border */
+  padding: var(--space-2); /* Internal spacing for the content container */
+  transition: all 0.3s ease;
+}
+
+.theme-neumorphism .forum-post:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    12px 12px 20px var(--neu-shadow-dark), 
+    -12px -12px 20px var(--neu-shadow-light);
+}
+
+.theme-neumorphism .post-header {
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  border-bottom: none; /* Neumorphism usually avoids hard lines */
+}
+
+/* Floor Number - Inset Effect */
+.theme-neumorphism .floor-id {
+  font-family: var(--neu-font-stack);
+  color: var(--neu-accent);
+  font-weight: 700;
+  font-size: 0.9em;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background-color: var(--neu-bg);
+  /* Pressed/Inset Look */
+  box-shadow: 
+    inset 3px 3px 7px var(--neu-shadow-dark), 
+    inset -3px -3px 7px var(--neu-shadow-light);
+}
+
+.theme-neumorphism .author-name {
+  font-size: 1.1em;
+  font-weight: 700;
+  margin-left: var(--space-3);
+  color: var(--neu-text);
+}
+
+.theme-neumorphism .post-content {
+  padding: var(--space-4) var(--space-8);
+  font-size: 1.05em;
+  line-height: 1.7;
+  color: var(--neu-text);
+}
+
+/* Quote/Code blocks within content could also get inset style */
+.theme-neumorphism .post-content blockquote {
+  border: none;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: var(--neu-bg);
+  box-shadow: 
+    inset 3px 3px 7px var(--neu-shadow-dark), 
+    inset -3px -3px 7px var(--neu-shadow-light);
+  color: var(--neu-text-secondary);
+  font-style: italic;
+}
+
+.theme-neumorphism .post-footer {
+  padding: var(--space-3) var(--space-8);
+  font-size: 0.85em;
+  color: var(--neu-text-secondary);
+  text-align: right;
+  opacity: 0.7;
+}
+
+/* LZ (Original Poster) Highlight */
+.theme-neumorphism .forum-post.is-lz {
+  /* Subtle border or accent color shift */
+  border: 1px solid rgba(109, 93, 252, 0.3);
+}
+
+.theme-neumorphism .is-lz .floor-id {
+  color: #fff;
+  background-color: var(--neu-accent);
+  /* For colored buttons, shadow needs to be adjusted or removed for flat look, 
+     but let's try a soft glow instead of inset for the active state */
+  box-shadow: 
+    5px 5px 10px rgba(109, 93, 252, 0.4),
+    -5px -5px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Avatar styling if present */
+.theme-neumorphism .post-header .rounded-full {
+  box-shadow: 
+    5px 5px 10px var(--neu-shadow-dark), 
+    -5px -5px 10px var(--neu-shadow-light);
+  border: 2px solid var(--neu-bg);
+}
+
+/* Action Buttons (Reply etc) */
+.theme-neumorphism button {
+  color: var(--neu-text-secondary);
+  transition: color 0.2s;
+}
+.theme-neumorphism button:hover {
+  color: var(--neu-accent);
+}
+
+@media (max-width: 640px) {
+  .theme-neumorphism .forum-container {
+    padding: var(--space-3);
+  }
+  .theme-neumorphism .post-content {
+    padding: var(--space-4);
+  }
+}
