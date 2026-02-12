@@ -11,100 +11,126 @@ interface CssEditorModalProps {
 const CSS_TEMPLATE = `/* ==========================================================================
    自定义 CSS 模板 / Custom CSS Template
    --------------------------------------------------------------------------
-   你可以直接修改下面的代码来覆盖默认的主题样式。
-   提示：为了确保你的样式生效，建议在属性后加上 !important。
+   该模板展示了 Forum Generator 中所有可自定义的核心类名。
+   你可以取消注释并修改数值来定制界面。
+   提示：为了确保覆盖默认主题，请尽量在属性后添加 !important。
    ========================================================================== */
 
-/* --- 1. 全局配置 (Global Settings) --- */
-:root {
-  /* 调整页面背景色 */
-  --bg-color-override: #f0f9ff;
-  
-  /* 调整字体 (建议使用系统默认或网络字体) */
-  --font-family-override: "Microsoft YaHei", "Segoe UI", sans-serif;
-}
-
-/* 应用全局背景和字体 */
+/* --- 1. 全局容器 (Container) --- */
+/* 整个论坛页面的背景和字体设置 */
+/*
 .forum-container {
-  background-color: var(--bg-color-override) !important;
-  font-family: var(--font-family-override) !important;
+  background-color: #f0f9ff !important;
+  font-family: "Microsoft YaHei", sans-serif !important;
+  
+  /* 如需背景图片: */
+  /* background-image: url('https://example.com/bg.jpg') !important; */
+  /* background-size: cover !important; */
 }
+*/
 
-/* --- 2. 帖子外观 (Post Appearance) --- */
+/* --- 2. 帖子卡片 (Post Card) --- */
+/* 每一层楼（包括主楼）的卡片样式 */
+/*
 .forum-post {
-  /* 背景色: 白色带一点蓝 */
+  /* 卡片背景色 */
   background-color: #ffffff !important;
   
-  /* 边框: 2像素实线，浅蓝色 */
-  border: 2px solid #bae6fd !important;
+  /* 边框样式 */
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
   
-  /* 圆角: 设置得大一些看起来更可爱 */
-  border-radius: 16px !important;
+  /* 阴影效果 */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
   
-  /* 阴影: 增加一点立体感 */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
-  
-  /* 帖子之间的间距 */
-  margin-bottom: 24px !important;
+  /* 卡片间距 */
+  margin-bottom: 20px !important;
 }
+*/
 
-/* --- 3. 楼层头部 (Header) --- */
+/* --- 3. 帖子头部 (Post Header) --- */
+/* 包含头像、作者名、楼层号的顶部区域 */
+/*
 .post-header {
-  /* 头部背景色: 极浅的灰色 */
   background-color: #f8fafc !important;
+  border-bottom: 1px dashed #cbd5e1 !important;
+  padding: 10px 16px !important;
   
-  /* 底部虚线分隔 */
-  border-bottom: 2px dashed #e2e8f0 !important;
-  
-  /* 增加内边距 */
-  padding: 12px 20px !important;
+  /* 调整高度或对齐方式 */
+  /* min-height: 50px !important; */
 }
 
-/* 楼层号 (#1L, #2L) */
-.floor-id {
-  color: #64748b !important;
+/* 作者名样式 */
+.author-name {
+  color: #334155 !important;
   font-weight: bold !important;
   font-size: 1.1em !important;
 }
 
-/* 作者名 */
-.author-name {
-  color: #0f172a !important;
-  font-size: 1.1em !important;
+/* 楼层号样式 (#1L, #2L) */
+.floor-id {
+  color: #94a3b8 !important;
+  font-family: monospace !important;
+}
+*/
+
+/* --- 4. 楼主高亮 (LZ Highlight) --- */
+/* 特定于楼主（LZ）的样式覆盖 */
+/*
+.forum-post.is-lz {
+  border: 2px solid #60a5fa !important; /* 蓝色边框 */
+  box-shadow: 0 0 15px rgba(96, 165, 250, 0.2) !important;
 }
 
-/* 楼主标识 (LZ) */
-.is-lz {
-  background-color: #ff6b6b !important; /* 红色背景 */
+/* 楼主的“楼层号”特殊样式 */
+.is-lz .floor-id {
+  background-color: #3b82f6 !important;
   color: white !important;
-  border-radius: 4px !important;
   padding: 2px 6px !important;
+  border-radius: 4px !important;
 }
+*/
 
-/* --- 4. 正文内容 (Content) --- */
-.markdown-body {
+/* --- 5. 正文区域 (Post Content) --- */
+/*
+.post-content {
+  padding: 20px !important;
+  color: #1e293b !important;
   font-size: 16px !important;
   line-height: 1.8 !important;
-  color: #334155 !important;
-  padding: 20px !important;
 }
 
 /* 引用块 (Blockquote) */
-/* 通常用于显示回复或者特殊的灰字内容 */
-.markdown-body blockquote {
-  border-left: 4px solid #3b82f6 !important; /* 左侧蓝条 */
-  background-color: #eff6ff !important;    /* 浅蓝背景 */
-  color: #1e40af !important;
-  padding: 10px 16px !important;
+.post-content blockquote {
+  border-left: 4px solid #cbd5e1 !important;
+  background-color: #f1f5f9 !important;
+  color: #64748b !important;
+  padding: 8px 12px !important;
+  font-style: italic !important;
 }
+*/
 
-/* --- 5. 图片样式 (Images) --- */
-.markdown-body img {
-  border-radius: 8px !important;
-  max-height: 400px !important; /* 限制图片最大高度 */
-  object-fit: contain !important; /* 保持比例 */
-  border: 1px solid #e2e8f0 !important;
+/* --- 6. 底部区域 (Post Footer) --- */
+/* 包含回复按钮、小尾巴的部分 */
+/*
+.post-footer {
+  border-top: 1px solid #f1f5f9 !important;
+  background-color: #ffffff !important;
+  padding: 8px 16px !important;
 }
+*/
+
+/* --- 7. 其他组件 (Misc) --- */
+/* 黑幕/剧透 (Spoiler) */
+/*
+.spoiler {
+  background-color: #000 !important;
+  color: #000 !important;
+}
+.spoiler:hover {
+  color: #fff !important;
+}
+*/
 `;
 
 export const CssEditorModal: React.FC<CssEditorModalProps> = ({ isOpen, onClose, css, setCss }) => {
@@ -137,6 +163,18 @@ export const CssEditorModal: React.FC<CssEditorModalProps> = ({ isOpen, onClose,
            
            {/* Controls overlay */}
            <div className="absolute bottom-4 right-4 flex gap-2">
+              <button 
+                onClick={() => {
+                    if(window.confirm('确定要清空所有自定义 CSS 吗？这将恢复默认主题样式。')) {
+                        setCss('');
+                    }
+                }}
+                className="flex items-center gap-1 px-3 py-1.5 bg-red-500/80 hover:bg-red-600 text-white text-xs rounded backdrop-blur-sm transition-colors shadow-sm"
+              >
+                  <X size={12} />
+                  <span>清空重置</span>
+              </button>
+              
               <button 
                 onClick={() => {
                     if(window.confirm('确定要覆盖当前 CSS 加载模板吗？')) {
