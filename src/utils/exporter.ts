@@ -52,6 +52,15 @@ export const generateHtml = (theme: Theme, threads: Thread[], options: ExportOpt
   // 1. Gather Styles
   let styles = '';
   
+  // Extract @import from theme.css to avoid CSS syntax errors (imports must be first)
+  let themeCss = theme.css || '';
+  const importRegex = /@import\s+url\s*\((['"]?)(.*?)\1\)\s*;/g;
+  const themeImports: string[] = [];
+  themeCss = themeCss.replace(importRegex, (_match, _quote, url) => {
+      themeImports.push(`<link rel="stylesheet" href="${url}">`);
+      return ''; /* Remove from CSS content */
+  });
+  
   if (options.mainCss) {
       styles += `/* Tailwind & Framework Styles */\n${options.mainCss}\n`;
   } else {
@@ -59,7 +68,7 @@ export const generateHtml = (theme: Theme, threads: Thread[], options: ExportOpt
   }
 
   styles += `/* Base Styles */\n${baseCss}\n`;
-  styles += `/* Active Theme: ${theme.name} */\n${theme.css || ''}\n`;
+  styles += `/* Active Theme: ${theme.name} */\n${themeCss}\n`;
   if (theme.id === 'weibo') {
       styles += `\nbody { background-color: #f6f6f6; }\n`;
   }
@@ -379,6 +388,7 @@ export const generateHtml = (theme: Theme, threads: Thread[], options: ExportOpt
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&family=Quicksand:wght@400;500;600;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    ${themeImports.join('\n')}
     <style>
         ${styles}
     </style>

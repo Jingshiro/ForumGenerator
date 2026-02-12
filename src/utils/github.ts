@@ -2,6 +2,7 @@ export interface PublishResult {
   success: boolean;
   message: string;
   url?: string;
+  pagesEnabled?: boolean;
 }
 
 export const publishToGithub = async (
@@ -32,8 +33,6 @@ export const publishToGithub = async (
       }
 
       // 2. Create/Update File
-      // Content needs to be Base64
-      // We need to handle UTF-8 chars carefully
       const base64Content = btoa(unescape(encodeURIComponent(content)));
 
       const body: any = {
@@ -57,12 +56,66 @@ export const publishToGithub = async (
           return { success: false, message: err.message || 'Upload failed' };
       }
 
-      // 3. Return URL
-      // success!
-      // Construct Pages URL: https://<owner>.github.io/<repo>/<path>
-      // Assumes Pages is enabled on root or standard logic.
+      // 3. Enable GitHub Pages if not already enabled
+      let pagesEnabled = true; // Assume true unless 404
+      try {
+          const pagesCheck = await fetch(`https://api.github.com/repos/${owner}/${repo}/pages`, {
+              headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Accept': 'application/vnd.github.v3+json'
+              }
+          });
+
+          if (pagesCheck.status === 404) {
+               pagesEnabled = false;
+               // Pages not enabled, try to enable it
+               const branches = ['main', 'master'];
+               
+               for (const branch of branches) {
+                   const branchCheck = await fetch(`https://api.github.com/repos/${owner}/${repo}/branches/${branch}`, {
+                       headers: {
+                           'Authorization': `Bearer ${token}`,
+                           'Accept': 'application/vnd.github.v3+json'
+                       }
+                   });
+                   
+                   if (branchCheck.ok) {
+                       const enableRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/pages`, {
+                           method: 'POST',
+                           headers: {
+                               'Authorization': `Bearer ${token}`,
+                               'Accept': 'application/vnd.github.v3+json',
+                               'Content-Type': 'application/json'
+                           },
+                           body: JSON.stringify({
+                               source: {
+                                   branch: branch,
+                                   path: '/'
+                               }
+                           })
+                       });
+                       
+                       if (enableRes.ok || enableRes.status === 409) {
+                           pagesEnabled = true;
+                           break;
+                       }
+                   }
+               }
+          }
+      } catch (e) {
+          console.warn('Error checking/enabling GitHub Pages:', e);
+          // Don't set pagesEnabled to false here to avoid false alarms on network hitch, 
+          // unless we are sure it failed.
+      }
+
+      // 4. Return URL
       const pagesUrl = `https://${owner}.github.io/${repo}/${path}`;
-      return { success: true, message: 'Published successfully!', url: pagesUrl };
+      return { 
+          success: true, 
+          message: 'Published successfully!', 
+          url: pagesUrl,
+          pagesEnabled 
+      };
 
   } catch (error: any) {
       return { success: false, message: error.message || 'Network error' };

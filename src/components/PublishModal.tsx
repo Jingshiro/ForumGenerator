@@ -62,12 +62,33 @@ export const PublishModal: React.FC<PublishModalProps> = ({ isOpen, onClose, htm
         
         <div className="p-6 space-y-4">
             {status === 'success' ? (
-                <div className="text-center py-4 space-y-4 animate-fade-in">
+                <div className="text-center py-4 space-y-4 animate-fade-in relative">
+                    <button onClick={onClose} className="absolute -top-2 -right-2 p-1 hover:bg-gray-100 rounded-full text-gray-500">
+                      <X size={20} />
+                    </button>
                     <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-2">
                         <CheckCircle size={32} />
                     </div>
                     <h4 className="text-xl font-bold text-gray-800">发布成功!</h4>
                     <p className="text-gray-500 text-sm">你的页面已上传。GitHub Pages 可能需要几分钟刷新。</p>
+                    
+                    {result?.pagesEnabled === false && (
+                        <div className="bg-yellow-50 border border-yellow-200 p-3 rounded text-left text-sm text-yellow-800 flex gap-2 items-start">
+                             <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                             <div>
+                                 <p className="font-bold">Pages 服务似乎未开启</p>
+                                 <p>自动开启失败，这可能是因为 Token 权限不足 (需 repo scope)。请前往 GitHub 仓库设置页手动开启 Pages 服务。</p>
+                                 <a 
+                                     href={`https://github.com/${repoStr}/settings/pages`} 
+                                     target="_blank" 
+                                     rel="noopener noreferrer"
+                                     className="text-blue-600 underline mt-1 block hover:text-blue-800"
+                                 >
+                                     前往设置
+                                 </a>
+                             </div>
+                        </div>
+                    )}
                     
                     <div className="bg-gray-50 p-3 rounded border flex items-center gap-2 text-sm text-blue-600 break-all select-all">
                         <LinkIcon size={14} className="shrink-0" />
